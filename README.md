@@ -1,19 +1,20 @@
-Jupyter Notebook is a an iteractive environment consisting of cells which allow executing code in great number of different markup and programming languages.
-In order to do this Jupyter has to connect to an appropriate kernel. 
+Jupyter Notebook is an interactive environment consisting of cells that allow executing code in a great number of different markup and programming languages.
+
+To do this Jupyter has to connect to an appropriate kernel.
+ 
 There was no ObjectScript Kernel, that is why I decided to create one.
 
 ## Jupyter Kernels 101
 There are several ways to create a Jupyter Kernel. I decided to make a Python wrapper kernel.
 
-Basically, we have to create a subclass of ```ipykernel.kernelbase.Kernel``` and implement the ```do_execute``` method which recieves a code to be executed in a particular language.
+We have to create a subclass of ```ipykernel.kernelbase.Kernel``` and implement the ```do_execute``` method which receives a code to be executed in a particular language.
 
 So, the general idea is to get a piece of ObjectScript code, somehow execute it and return the results to our notebook.
 
 But how do we that exactly? Let's try and break that down even further.
 
 ## Sending ObjectScript code to IRIS
-
-Firstly, we have to send our piece of code to IRIS. This is where IRIS Native API comes in.
+To begin with, we have to send our piece of code to IRIS. This is where IRIS Native API comes in.
 
 All we have to do is import ```irisnative``` package, then establish a connection:
 
@@ -25,7 +26,7 @@ def get_iris_object():
   # Create an iris object
   return irisnative.createIris(connection)
 ```
-After that we can use the connection to call classes that are stored in the IRIS database.
+After that, we can use the connection to call classes that are stored in the IRIS database.
 
 ```
 def execute_code(self, code):
@@ -33,12 +34,15 @@ def execute_code(self, code):
         return self.iris.classMethodValue(class_name, "CodeResult", code)
 ```
 
-What are these CodeExecutor class and CodeResult method used for? Let's take a look.
+What are these ```CodeExecutor``` class and ```CodeResult``` method used for? 
+
+Let's take a look.
 
 ## Excecuting ObjectScript code
 
-The purpose of this class is to execute a line of ObjectScript code and return a JSON object with the results of execution. We pass our code to CodeResult in a variable vstrCommand. 
-Firstly, we redirect IO to the current routine, after that we execute passed code via XECUTE command, redirect OI back to the original and then return the results.
+The purpose of this class is to execute a line of ObjectScript code and return a JSON object with the results of execution. We pass our code to ```CodeResult``` in a variable ```vstrCommand```. 
+
+We start with redirecting IO to the current routine, after that we execute passed code via ```XECUTE``` command, redirect IO back to the original and then return the results.
 
 ```
 Include %sySystem
@@ -105,9 +109,11 @@ output(s)
 ```
 ## Displaying the results
 
-So, we've executed a piece of ObjectScript code, now what? Well, we have to display the results.
-If there were no exceptions, we just display the results line by line.
-However, if our a passed piece of code did raise an exception, we stop execution, display the failed line's number, iself and the exception it raised.
+So, we've executed a piece of ObjectScript code, now what? Well, we have to display the results. 
+
+If there were no exceptions, we just display the results line by line. 
+
+However, if our a passed piece of code did raise an exception, we stop the execution, display the failed line's number, itself, and the raised exception.
 
 ![alt text](https://i.imgur.com/42zQpo7.gif "Example Notebook Execution")
 
