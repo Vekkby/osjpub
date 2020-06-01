@@ -4,9 +4,9 @@ To do this Jupyter has to connect to an appropriate kernel.
  
 There was no ObjectScript Kernel, that is why I decided to create one.
 
-Here's a sneek peek of the results:
+Here's a sneak peek of the results:
 
-![alt text](https://i.imgur.com/PYerkAy.gif "Sneel Peek")
+![alt text](https://i.imgur.com/DPQFFnd.gif "Sneak Peek")
 
 ## Jupyter Kernels 101
 There are several ways to create a [Jupyter Kernel](https://jupyter-client.readthedocs.io/en/stable/kernels.html). I decided to make a Python wrapper kernel.
