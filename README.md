@@ -1,11 +1,12 @@
-Jupyter Notebook is an interactive environment consisting of cells that allow executing code in a great number of different markup and programming languages.
+[Jupyter Notebook](https://jupyter.org/) is an interactive environment consisting of cells that allow executing code in a great number of different markup and programming languages.
 
 To do this Jupyter has to connect to an appropriate kernel.
  
 There was no ObjectScript Kernel, that is why I decided to create one.
 
 ## Jupyter Kernels 101
-There are several ways to create a Jupyter Kernel. I decided to make a Python wrapper kernel.
+There are several ways to create a [Jupyter Kernel](Making kernels for Jupyter
+). I decided to make a Python wrapper kernel.
 
 We have to create a subclass of ```ipykernel.kernelbase.Kernel``` and implement the ```do_execute``` method which receives a code to be executed in a particular language.
 
@@ -14,7 +15,7 @@ So, the general idea is to get a piece of ObjectScript code, somehow execute it 
 But how do we that exactly? Let's try and break that down even further.
 
 ## Sending ObjectScript code to IRIS
-To begin with, we have to send our piece of code to IRIS. This is where IRIS Native API comes in.
+To begin with, we have to send our piece of code to IRIS. This is where [IRIS Native API for Python](https://irisdocs.intersystems.com/irislatest/csp/docbook/Doc.View.cls?KEY=PAGE_PYTHON_NATIVE) comes in.
 
 All we have to do is import ```irisnative``` package, then establish a connection:
 
@@ -42,7 +43,7 @@ Let's take a look.
 
 The purpose of this class is to execute a line of ObjectScript code and return a JSON object with the results of execution. We pass our code to ```CodeResult``` in a variable ```vstrCommand```. 
 
-We start with redirecting IO to the current routine, after that we execute passed code via ```XECUTE``` command, redirect IO back to the original and then return the results.
+We start with redirecting IO to the current routine, after that we execute passed code via [XECUTE](https://docs.intersystems.com/irislatest/csp/docbook/DocBook.UI.Page.cls?KEY=RCOS_cxecute) command, redirect IO back to the original and then return the results.
 
 ```
 Include %sySystem
@@ -122,7 +123,7 @@ However, if our a passed piece of code did raise an exception, we stop the execu
 You can try this kernel yourself and here's how.
 
 ## Prerequisites
-Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
+Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://www.docker.com/products/docker-desktop) installed.
 
 
 Clone/git pull the repo into any local directory e.g. like it is shown below:
